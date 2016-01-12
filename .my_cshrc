@@ -1,0 +1,44 @@
+###############################################################################
+# DREWS SHELL CONFIGURATION 
+###############################################################################
+# Setting shell environment
+setenv PAGER more
+setenv EDITOR vim
+
+###############################################################################
+# Path and Enviroment Edits
+###############################################################################
+set myemail = drjones604@gmail.com
+# set prompt = '\n%{\033[31m%}[%m-%$SPACECRAFT:%/] %#%#%{\033[0m%} '
+
+# PATH AND PYTHONPATH DECLARATIONS
+set bindirs = ("/home/drjones/bin")  # Added to front of path
+set pathdirs = ("/home/drjones/scripts" "~") # End of path
+set pypathdirs = "home/drjones/pylib" # End of pypath
+
+echo ${path} | egrep -i "$bindirs" >& /dev/null
+if ($status != 0) then
+  set path = ($bindirs $path)
+endif
+
+echo ${path} | egrep -i "$pathdirs" >& /dev/null
+if ($status != 0) then
+  set path = ($path $pathdirs)
+endif
+
+if ! $?PYTHONPATH then 
+    setenv PYTHONPATH $pypathdirs
+else
+    echo ${PYTHONPATH} | egrep -i "$pypathdirs" >& /dev/null
+    if ($status != 0) then
+        setenv PYTHONPATH $PYTHONPATH":"$pypathdirs
+    endif
+endif
+
+
+###############################################################################
+# Macros
+###############################################################################
+alias v 'vim'
+alias xr "xterm -T \!:1@\!:2 -n \!:1@\!:2 &"
+alias wvi 'vim `which \!:1`'
